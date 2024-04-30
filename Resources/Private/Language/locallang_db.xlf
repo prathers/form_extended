@@ -28,6 +28,9 @@
 			<trans-unit id="tx_formextended_domain_model_optin">
 				<source>Opt in requests</source>
 			</trans-unit>
+			<trans-unit id="site_sender">
+				<source>Sender</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

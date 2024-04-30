@@ -28,16 +28,18 @@ TYPO3:
     Form:
       formManager:
         translationFiles:
-          20: 'EXT:form_extended/Resources/Private/Language/form.xlf'
+          27: 'EXT:form_extended/Resources/Private/Language/form.xlf'
 
       prototypes:
         standard:
           formEditor:
             translationFiles:
-              20: 'EXT:form_extended/Resources/Private/Language/form.xlf'
+              27: 'EXT:form_extended/Resources/Private/Language/form.xlf'
             formEditorPartials:
-              FormElement-PrivacyPolicyCheckbox: 'Stage/SimpleTemplate'
-              FormElement-CountrySelect: 'Stage/SimpleTemplate'
+              FormElement-PrivacyPolicyCheckbox: Stage/SimpleTemplate
+              FormElement-CountrySelect: Stage/SimpleTemplate
+              FormElement-StaticText: Stage/SimpleTemplate
+              Inspector-StaticTextEditor: Inspector/StaticTextEditor
 
             formEditorFluidConfiguration:
               partialRootPaths:
@@ -47,7 +49,7 @@ TYPO3:
 
             dynamicRequireJsModules:
               additionalViewModelModules:
-                90: 'TYPO3/CMS/FormExtended/Backend/FormEditor/ViewModel'
+                90: '@wapplersystems/form_extended/backend/form-editor/view-model.js'
 
 
       mixins:
@@ -65,20 +67,3 @@ TYPO3:
                   templateName: 'Inspector-CheckboxEditor'
                   label: 'formEditor.elements.ExtendedAttributesMixin.editor.hideTitle.label'
                   propertyPath: 'properties.hideTitle'
-                760:
-                  identifier: 'hideOnSummaryPage'
-                  templateName: 'Inspector-CheckboxEditor'
-                  label: 'formEditor.elements.ExtendedAttributesMixin.editor.hideOnSummaryPage.label'
-                  propertyPath: 'properties.hideOnSummaryPage'
-                770:
-                  identifier: 'hideInReceiverEmail'
-                  templateName: 'Inspector-CheckboxEditor'
-                  label: 'formEditor.elements.ExtendedAttributesMixin.editor.hideInReceiverEmail.label'
-                  propertyPath: 'properties.hideInReceiverEmail'
-                780:
-                  identifier: 'hideInSenderEmail'
-                  templateName: 'Inspector-CheckboxEditor'
-                  label: 'formEditor.elements.ExtendedAttributesMixin.editor.hideInSenderEmail.label'
-                  propertyPath: 'properties.hideInSenderEmail'
-
-

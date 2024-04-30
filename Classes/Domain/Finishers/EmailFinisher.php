@@ -18,8 +18,11 @@ declare(strict_types=1);
 namespace WapplerSystems\FormExtended\Domain\Finishers;
 
 use Symfony\Component\Mime\Address;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\MailerInterface;
+use TYPO3\CMS\Core\Service\FlexFormService;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
@@ -76,10 +79,35 @@ class EmailFinisher extends \TYPO3\CMS\Form\Domain\Finishers\EmailFinisher
 
         $subject = (string)$this->parseOption('subject');
         $recipients = $this->getRecipients('recipients');
-        $senderAddress = $this->parseOption('senderAddress');
-        $senderAddress = is_string($senderAddress) ? $senderAddress : '';
-        $senderName = $this->parseOption('senderName');
-        $senderName = is_string($senderName) ? $senderName : '';
+
+        $featureSiteEmail = GeneralUtility::makeInstance(ExtensionConfiguration::class)
+            ->get('form_extended', 'featureSiteEmail');
+        if ($featureSiteEmail) {
+
+            $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
+            $settings = $flexformService->convertFlexFormContentToArray($this->finisherContext->getRequest()->getAttribute('currentContentObject')?->data['pi_flexform'] ?? '');
+            $settings = $settings['settings'] ?? [];
+
+            /** @var Site $site */
+            $site = $this->finisherContext->getRequest()->getAttribute('site');
+            $senders = $site->getAttribute('senders');
+
+            $senderName = '';
+            foreach ($senders as $sender) {
+                if ($sender['email'] === ($settings['sender'] ?? '')) {
+                    $senderName = $sender['name'];
+                }
+            }
+            $senderAddress = $settings['sender'] ?? '';
+
+        } else {
+            $senderAddress = $this->parseOption('senderAddress');
+            $senderAddress = is_string($senderAddress) ? $senderAddress : '';
+
+            $senderName = $this->parseOption('senderName');
+            $senderName = is_string($senderName) ? $senderName : '';
+        }
+
         $replyToRecipients = $this->getRecipients('replyToRecipients');
         $carbonCopyRecipients = $this->getRecipients('carbonCopyRecipients');
         $blindCarbonCopyRecipients = $this->getRecipients('blindCarbonCopyRecipients');

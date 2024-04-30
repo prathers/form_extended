@@ -23,8 +23,12 @@
 				<target>Aktiviere mehrfachen Datei-Upload</target>
 			</trans-unit>
 			<trans-unit id="formEditor.elements.Form.finisher.EmailToSender.editor.senderAddress.fieldExplanationText2">
-				<source>Set automatically by the site configuration</source>
-				<target>Wird automatisch durch die Site-Konfiguration gesetzt</target>
+				<source>Set by site configuration and plugin</source>
+				<target>Wird durch die Site-Konfiguration und das Plugin gesetzt</target>
+			</trans-unit>
+			<trans-unit id="formEditor.elements.Form.finisher.EmailToSender.editor.senderName.fieldExplanationText2">
+				<source>Set by site configuration and plugin</source>
+				<target>Wird durch die Site-Konfiguration und das Plugin gesetzt</target>
 			</trans-unit>
 		</body>
 	</file>

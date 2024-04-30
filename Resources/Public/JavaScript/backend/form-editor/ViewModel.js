@@ -135,7 +135,7 @@ define(['jquery',
 
 
         function _renderEditorDispatcher(editorConfiguration, editorHtml, collectionElementIdentifier, collectionName) {
-            //console.debug(editorConfiguration['templateName']);
+            console.debug(editorConfiguration['templateName']);
             switch (editorConfiguration['templateName']) {
                 case 'Inspector-ElementsEditor':
                     getFormEditorApp().getViewModel().getInspector().renderCollectionElementSelectionEditor(

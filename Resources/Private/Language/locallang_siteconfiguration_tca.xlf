@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-08-21T20:15:32Z"
+		  product-name="form_extended">
+		<header/>
+		<body>
+			<trans-unit id="site_sender.ctrl.title">
+				<source>Senders</source>
+			</trans-unit>
+			<trans-unit id="site_sender.email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="site_sender.email.placeholder">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="site_sender.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="site_sender.name.placeholder">
+				<source>Name</source>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>

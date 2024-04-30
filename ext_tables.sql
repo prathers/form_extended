@@ -4,23 +4,16 @@
 CREATE TABLE tx_formextended_domain_model_optin
 (
 
-    uid             int(11)                         NOT NULL auto_increment,
-    pid             int(11)             DEFAULT '0' NOT NULL,
+	encoded_values  text,
+	email           varchar(255)        DEFAULT ''  NOT NULL,
+	is_validated    tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	validation_hash varchar(255)        DEFAULT ''  NOT NULL,
+	validation_date int(11) unsigned    DEFAULT '0' NOT NULL,
 
-    tstamp          int(11) unsigned    DEFAULT '0' NOT NULL,
-    crdate          int(11) unsigned    DEFAULT '0' NOT NULL,
-    cruser_id       int(11) unsigned    DEFAULT '0' NOT NULL,
-    deleted         tinyint(4) unsigned DEFAULT '0' NOT NULL,
-    hidden          tinyint(4) unsigned DEFAULT '0' NOT NULL,
-    encoded_values  text,
+	KEY hash (validation_hash)
+);
 
-    email           varchar(255)        DEFAULT ''  NOT NULL,
-
-    is_validated    tinyint(4) unsigned DEFAULT '0' NOT NULL,
-    validation_hash varchar(255)        DEFAULT ''  NOT NULL,
-    validation_date int(11) unsigned    DEFAULT '0' NOT NULL,
-
-    PRIMARY KEY (uid),
-    KEY parent (pid),
-    KEY hash (validation_hash)
+CREATE TABLE tt_content
+(
+	site_sender varchar(255) DEFAULT '' NOT NULL
 );

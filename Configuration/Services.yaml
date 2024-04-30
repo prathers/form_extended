@@ -6,3 +6,10 @@ services:
 
   WapplerSystems\FormExtended\:
     resource: '../Classes/*'
+
+
+  WapplerSystems\FormExtended\EventListener\DataStructureIdentifierListener:
+    tags:
+      - name: event.listener
+        identifier: 'form-extended/modify-data-structure'
+        method: 'modifyDataStructure'

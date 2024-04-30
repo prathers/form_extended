@@ -1,0 +1,3 @@
+
+# cat=Backend; type=boolean; label=Activate site configuration for sender address
+featureSiteEmail = 0
