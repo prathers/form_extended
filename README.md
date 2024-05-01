@@ -31,6 +31,8 @@ With the sender-in-site feature, administrators can define valid senders in the 
 
 ![Activation!](Documentation/Images/Sender/activation.png "Activation")
 
+It is no longer possible to set the sender manually.
+
 ![Finisher settings!](Documentation/Images/Sender/finisher.png "Finisher settings")
 
 ![Plugin settings!](Documentation/Images/Sender/plugin.png "Plugin settings")
