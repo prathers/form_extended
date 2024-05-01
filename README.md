@@ -25,7 +25,7 @@ It extends the form extension with the following features:
   - extendable with typical form methods like YAML
 
 
-### Feature: Set senders in site configuration
+## Feature: Set senders in site configuration
 
 With the sender-in-site feature, administrators can define valid senders in the site configuration and editors can select them in the plugins.
 
