@@ -23,3 +23,16 @@ It extends the form extension with the following features:
   - add your own fields
   - spam protection
   - extendable with typical form methods like YAML
+
+
+### Feature: Set senders in site configuration
+
+With the sender-in-site feature, administrators can define valid senders in the site configuration and editors can select them in the plugins.
+
+![Activation!](Documentation/Images/Sender/activation.png "Activation")
+
+![Finisher settings!](Documentation/Images/Sender/finisher.png "Finisher settings")
+
+![Plugin settings!](Documentation/Images/Sender/plugin.png "Plugin settings")
+
+![Sites configuration!](Documentation/Images/Sender/sites.png "Sites configuration")
