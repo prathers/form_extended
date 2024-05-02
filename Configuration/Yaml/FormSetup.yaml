@@ -40,6 +40,7 @@ TYPO3:
               FormElement-CountrySelect: Stage/SimpleTemplate
               FormElement-StaticText: Stage/SimpleTemplate
               Inspector-StaticTextEditor: Inspector/StaticTextEditor
+              Inspector-ModalTextareaEditor: Inspector/ModalTextareaEditor
 
             formEditorFluidConfiguration:
               partialRootPaths:

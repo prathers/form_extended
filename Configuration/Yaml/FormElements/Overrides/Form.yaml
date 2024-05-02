@@ -33,6 +33,22 @@ TYPO3:
                     propertyPath: renderingOptions.tags
                 propertyCollections:
                   finishers:
+                    10:
+                      editors:
+                        222:
+                          identifier: 'message'
+                          templateName: Inspector-ModalTextareaEditor
+                          label: 'formEditor.elements.Form.finisher.EmailToSender.editor.message.label'
+                          propertyPath: 'options.message'
+                          enableFormelementSelectionButton: false
+                    20:
+                      editors:
+                        222:
+                          identifier: 'message'
+                          templateName: Inspector-ModalTextareaEditor
+                          label: 'formEditor.elements.Form.finisher.EmailToSender.editor.message.label'
+                          propertyPath: 'options.message'
+                          enableFormelementSelectionButton: false
                     350:
                       identifier: 'DoubleOptIn'
                       editors:
