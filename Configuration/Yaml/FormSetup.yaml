@@ -41,6 +41,7 @@ TYPO3:
               FormElement-StaticText: Stage/SimpleTemplate
               Inspector-StaticTextEditor: Inspector/StaticTextEditor
               Inspector-ModalTextareaEditor: Inspector/ModalTextareaEditor
+              Modal-MessageEditor: Modals/MessageEditor
 
             formEditorFluidConfiguration:
               partialRootPaths:

@@ -6,6 +6,8 @@ import * as Helper from '@typo3/form/backend/form-editor/helper.js'
 import Modal from '@typo3/backend/modal.js';
 import Severity from '@typo3/backend/severity.js';
 import Icons from '@typo3/backend/icons.js';
+import * as ExtendedModals from './extended-modals.js';
+
 
 /**
  * @private
@@ -13,6 +15,23 @@ import Icons from '@typo3/backend/icons.js';
  * @var object
  */
 let _formEditorApp = null;
+
+
+/**
+ * @public
+ *
+ * @param object formEditorApp
+ * @return void
+ */
+export function bootstrap(formEditorApp) {
+  _formEditorApp = formEditorApp;
+  _updateConfiguration();
+  _helperSetup();
+  _modalsSetup();
+  _subscribeEvents();
+
+};
+
 
 /**
  * @private
@@ -51,6 +70,10 @@ function getHelper() {
   return Helper;
 };
 
+function getModals() {
+  return ExtendedModals;
+};
+
 /**
  * @private
  *
@@ -86,38 +109,42 @@ function _helperSetup() {
   Helper.bootstrap(getFormEditorApp());
 };
 
+
+function _modalsSetup() {
+  assert('function' === $.type(ExtendedModals.bootstrap),
+    'The modals component does not implement the method "bootstrap"',
+    1491643380
+  );
+  ExtendedModals.bootstrap(getFormEditorApp(),{
+    domElementDataAttributeValues: {
+      buttonStageRichtextEditor: 'stageRichtextEditor',
+      templateMessageEditor: 'Modals-MessageEditor',
+    }
+  });
+};
+
 /**
  * @private
  *
  * @return void
  */
 function _subscribeEvents() {
-  getPublisherSubscriber().subscribe('view/stage/abstract/render/template/perform', function(topic, args) {
-    _renderTemplateDispatcherFormExtended(args[0],args[1]);
+  getPublisherSubscriber().subscribe('view/stage/abstract/render/template/perform', function (topic, args) {
+    _renderTemplateDispatcherFormExtended(args[0], args[1]);
   });
-  getPublisherSubscriber().subscribe('view/inspector/editor/insert/perform', function(topic, args) {
-    _renderEditorDispatcherFormExtended(args[0],args[1],args[2],args[3]);
+  getPublisherSubscriber().subscribe('view/inspector/editor/insert/perform', function (topic, args) {
+    _renderEditorDispatcherFormExtended(args[0], args[1], args[2], args[3]);
   });
-  getPublisherSubscriber().subscribe('view/stage/abstract/button/openRichtextModal/clicked', function(topic, args) {
+  getPublisherSubscriber().subscribe('view/stage/abstract/button/openMessageEditor/clicked', function (topic, args) {
 
-
-
-
-        Modal.show(
-          'ddddddddddd',
-          'frfrfrrfrr',
-          Severity.info
-        );
-
+    getModals().showMessageEditorModal('view/modal/messageEditor/perform', initRTE);
 
   });
 
-  /*
-  getPublisherSubscriber().subscribe('view/inspector/editor/insert/perform', function(topic, args) {
-    _addListeners();
-  });*/
+}
 
-
+function initRTE() {
+  console.debug('initRTE');
 };
 
 /**
@@ -164,9 +191,11 @@ function _renderEditorDispatcherFormExtended(editorConfiguration, editorHtml, co
 
 function _updateConfiguration() {
 
+
   getHelper().setConfiguration({
     domElementDataAttributeValues: {
-      buttonStageRichtextEditor: 'stageRichtextEditor'
+      buttonStageRichtextEditor: 'stageRichtextEditor',
+      templateMessageEditor: 'Modals-MessageEditor',
     }
   });
 
@@ -174,20 +203,7 @@ function _updateConfiguration() {
 
 }
 
-/**
- * @public
- *
- * @param object formEditorApp
- * @return void
- */
-export function bootstrap(formEditorApp) {
-  _formEditorApp = formEditorApp;
-  _updateConfiguration();
-  _helperSetup();
-  _subscribeEvents();
 
-
-};
 
 
 /**
@@ -365,7 +381,7 @@ function renderModalTextareaEditor(editorConfiguration, editorHtml, collectionEl
 
   getHelper().getTemplatePropertyDomElement('stageRichtextEditor', editorHtml).on('click', function(e) {
     getPublisherSubscriber().publish(
-      'view/stage/abstract/button/openRichtextModal/clicked', [
+      'view/stage/abstract/button/openMessageEditor/clicked', [
         'view/insertElements/perform/bottom'
       ]
     );
