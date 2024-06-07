@@ -16,7 +16,7 @@ It extends the form extension with the following features:
   - hide in receiver mail
   - hide in sender mail
 - Registration functions
-  - extendable alternative to sf-regater
+  - extendable alternative to sf-register
   - Double Opt-In
   - fully integrated with form
   - design flexibility
