@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-08-21T20:15:32Z"
-		  product-name="form_extended">
-		<header/>
-		<body>
-			<trans-unit id="formEditor.elements.ExtendedAttributesMixin.editor.info.label">
-				<source>Info</source>
-			</trans-unit>
-			<trans-unit id="formEditor.elements.ExtendedAttributesMixin.editor.hideTitle.label">
-				<source>Hide title</source>
-			</trans-unit>
-			<trans-unit id="formEditor.elements.privacyPolicyCheckbox.label">
-				<source>Privacy policy checkbox</source>
-			</trans-unit>
-			<trans-unit id="formEditor.elements.countrySelect.label">
-				<source>Country select box</source>
-			</trans-unit>
-			<trans-unit id="formEditor.elements.FileUpload.editor.enableMultiple.label">
-				<source>Enable multiple file upload</source>
-			</trans-unit>
-			<trans-unit id="formEditor.elements.BaseFormElementMixin.editor.label.tags">
-				<source>Tags</source>
-			</trans-unit>
-			<trans-unit id="formEditor.elements.Form.finisher.EmailToSender.editor.senderAddress.fieldExplanationText2">
-				<source>Set by site configuration and plugin</source>
-			</trans-unit>
-			<trans-unit id="formEditor.elements.Form.finisher.EmailToSender.editor.senderName.fieldExplanationText2">
-				<source>Set by site configuration and plugin</source>
-			</trans-unit>
-		</body>
-	</file>
+    <file source-language="en" datatype="plaintext" original="messages" date="2016-08-21T20:15:32Z"
+          product-name="form_extended">
+        <header/>
+        <body>
+            <trans-unit id="formEditor.elements.ExtendedAttributesMixin.editor.info.label">
+                <source>Info</source>
+            </trans-unit>
+            <trans-unit id="formEditor.elements.ExtendedAttributesMixin.editor.hideTitle.label">
+                <source>Hide title</source>
+            </trans-unit>
+            <trans-unit id="formEditor.elements.privacyPolicyCheckbox.label">
+                <source>Privacy policy checkbox</source>
+            </trans-unit>
+            <trans-unit id="formEditor.elements.countrySelect.label">
+                <source>Country select box</source>
+            </trans-unit>
+            <trans-unit id="formEditor.elements.FileUpload.editor.enableMultiple.label">
+                <source>Enable multiple file upload</source>
+            </trans-unit>
+            <trans-unit id="formEditor.elements.BaseFormElementMixin.editor.label.tags">
+                <source>Tags</source>
+            </trans-unit>
+            <trans-unit id="formEditor.elements.Form.finisher.EmailToSender.editor.senderAddress.fieldExplanationText2">
+                <source>Set by site configuration and plugin</source>
+            </trans-unit>
+            <trans-unit id="formEditor.elements.Form.finisher.EmailToSender.editor.senderName.fieldExplanationText2">
+                <source>Set by site configuration and plugin</source>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>
