@@ -80,6 +80,12 @@ class EmailFinisher extends \TYPO3\CMS\Form\Domain\Finishers\EmailFinisher
         $subject = (string)$this->parseOption('subject');
         $recipients = $this->getRecipients('recipients');
 
+        $senderAddress = $this->parseOption('senderAddress');
+        $senderAddress = is_string($senderAddress) ? $senderAddress : '';
+
+        $senderName = $this->parseOption('senderName');
+        $senderName = is_string($senderName) ? $senderName : '';
+
         $featureSiteEmail = GeneralUtility::makeInstance(ExtensionConfiguration::class)
             ->get('form_extended', 'featureSiteEmail');
         if ($featureSiteEmail) {
@@ -92,20 +98,15 @@ class EmailFinisher extends \TYPO3\CMS\Form\Domain\Finishers\EmailFinisher
             $site = $this->finisherContext->getRequest()->getAttribute('site');
             $senders = $site->getAttribute('senders');
 
-            $senderName = '';
-            foreach ($senders as $sender) {
-                if ($sender['email'] === ($settings['sender'] ?? '')) {
-                    $senderName = $sender['name'];
+            if (isset($settings['sender'])) {
+                $senderName = '';
+                foreach ($senders as $sender) {
+                    if ($sender['email'] === ($settings['sender'] ?? '')) {
+                        $senderName = $sender['name'];
+                    }
                 }
+                $senderAddress = $settings['sender'] ?? '';
             }
-            $senderAddress = $settings['sender'] ?? '';
-
-        } else {
-            $senderAddress = $this->parseOption('senderAddress');
-            $senderAddress = is_string($senderAddress) ? $senderAddress : '';
-
-            $senderName = $this->parseOption('senderName');
-            $senderName = is_string($senderName) ? $senderName : '';
         }
 
         $replyToRecipients = $this->getRecipients('replyToRecipients');

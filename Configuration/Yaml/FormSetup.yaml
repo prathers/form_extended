@@ -6,7 +6,6 @@ imports:
   - { resource: "./Finishers/EmailToSender.yaml" }
   - { resource: "./Finishers/FeUser.yaml" }
 
-  - { resource: "./FormElements/CountrySelect.yaml" }
   - { resource: "./FormElements/PrivacyPolicyCheckbox.yaml" }
 
   - { resource: "./FormElements/Overrides/AdvancedPassword.yaml" }
@@ -14,6 +13,7 @@ imports:
   - { resource: "./FormElements/Overrides/DatePicker.yaml" }
   - { resource: "./FormElements/Overrides/FileUpload.yaml" }
   - { resource: "./FormElements/Overrides/Form.yaml" }
+  - { resource: "./FormElements/Overrides/ImageUpload.yaml" }
   - { resource: "./FormElements/Overrides/MultiCheckbox.yaml" }
   - { resource: "./FormElements/Overrides/MultiSelect.yaml" }
   - { resource: "./FormElements/Overrides/Password.yaml" }
@@ -37,7 +37,6 @@ TYPO3:
               27: 'EXT:form_extended/Resources/Private/Language/form.xlf'
             formEditorPartials:
               FormElement-PrivacyPolicyCheckbox: Stage/SimpleTemplate
-              FormElement-CountrySelect: Stage/SimpleTemplate
               FormElement-StaticText: Stage/SimpleTemplate
               Inspector-StaticTextEditor: Inspector/StaticTextEditor
 

@@ -19,6 +19,7 @@ TYPO3:
                     label: 'Datenschutz Seiten-ID'
                     buttonLabel: 'formEditor.elements.Form.finisher.Redirect.editor.pageUid.buttonLabel'
                     browsableType: pages
+                    iconIdentifier: apps-pagetree-page-default
                     propertyPath: 'properties.privacyPolicyUid'
                     propertyValidatorsMode: 'OR'
                     propertyValidators:

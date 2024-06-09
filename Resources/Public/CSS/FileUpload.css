@@ -1,10 +1,19 @@
 
+.multiupload-files {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
 .multiupload-file-block {
     border-radius: 10px;
     background-color: rgba(144, 163, 203, 0.2);
     margin: 5px;
     color: initial;
-    display: inline-flex;
+    display: flex;
+    align-items: flex-start;
+    padding: 7px;
 }
 
 .multiupload-file-block > span.name {
@@ -33,3 +42,14 @@
     transform: rotate(45deg);
 }
 
+.multiupload-image {
+    display: flex;
+    flex-direction: column;
+}
+
+.multiupload-image img {
+    max-width: 250px;
+    max-height: 250px;
+    width: auto;
+    height: auto;
+}

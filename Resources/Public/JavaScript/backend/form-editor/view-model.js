@@ -103,7 +103,6 @@ function _subscribeEvents() {
  * @return void
  */
 function _renderTemplateDispatcherFormExtended(formElement, template) {
-  //console.debug(formElement.get('type'));
   switch (formElement.get('type')) {
     case 'PrivacyPolicyCheckbox':
       getFormEditorApp().getViewModel().getStage().renderSimpleTemplateWithValidators(formElement, template);

@@ -26,6 +26,9 @@ class UploadedFileReferenceConverter extends \TYPO3\CMS\Form\Mvc\Property\TypeCo
      */
     public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = null)
     {
+        if ($source === '') {
+            return null;
+        }
         if (is_array($source) && !isset($source['tmp_name'])) {
             $resources = [];
             foreach ($source as $singleSource) {
