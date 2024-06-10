@@ -8,7 +8,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Form\Domain\Finishers\Exception\FinisherException;
 use TYPO3\CMS\Form\Domain\Model\FormElements\FormElementInterface;
-use WapplerSystems\FormExtended\Utility\UserUtility;
 
 class FeUserFinisher extends \TYPO3\CMS\Form\Domain\Finishers\SaveToDatabaseFinisher
 {
@@ -64,6 +63,10 @@ class FeUserFinisher extends \TYPO3\CMS\Form\Domain\Finishers\SaveToDatabaseFini
                 && ($databaseColumnConfiguration['skipIfValueIsEmpty'] ?? false) === true
             ) {
                 continue;
+            }
+            $function = $this->parseOption('databaseColumnMappings.' . $databaseColumnName . '.function');
+            if ($function === 'time') {
+                $value = time();
             }
 
             $databaseData[$databaseColumnName] = $value;

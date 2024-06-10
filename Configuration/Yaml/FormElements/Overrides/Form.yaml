@@ -173,16 +173,38 @@ TYPO3:
                         9999:
                           identifier: removeButton
                           templateName: Inspector-RemoveElementEditor
+                    351:
+                      identifier: 'FeUser'
+                      editors:
+                        100:
+                          identifier: header
+                          templateName: Inspector-CollectionElementHeaderEditor
+                          label: 'FeUser'
+                        400:
+                          identifier: pid
+                          templateName: Inspector-Typo3WinBrowserEditor
+                          label: 'Ordner zum Speichern der Datenätze'
+                          buttonLabel: formEditor.elements.Form.finisher.Redirect.editor.pageUid.buttonLabel
+                          browsableType: pages
+                          iconIdentifier: apps-pagetree-page-default
+                          propertyPath: options.pid
+                          propertyValidatorsMode: OR
+                          propertyValidators:
+                            10: Integer
+                            20: FormElementIdentifierWithinCurlyBracesExclusive
+                        9999:
+                          identifier: removeButton
+                          templateName: Inspector-RemoveElementEditor
                     352:
                       identifier: 'CopyToSenderEmail'
                       editors:
                         100:
                           label: 'Send copy to sender'
                         160:
-                          identifier: 'conditionFieldName'
-                          templateName: 'Inspector-TextEditor'
+                          identifier: conditionFieldName
+                          templateName: Inspector-TextEditor
                           label: 'Name of the copy checkbox field'
-                          propertyPath: 'options.conditionFieldName'
+                          propertyPath: options.conditionFieldName
                           enableFormelementSelectionButton: true
                           propertyValidators:
                             10: NotEmpty

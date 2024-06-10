@@ -7,6 +7,7 @@ namespace WapplerSystems\FormExtended\Controller;
  */
 
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use WapplerSystems\FormExtended\Domain\Model\OptIn;
 use WapplerSystems\FormExtended\Domain\Repository\OptInRepository;
@@ -28,7 +29,7 @@ class DoubleOptInController extends ActionController
      * @param string $hash
      * @return void
      */
-    public function validationAction($hash = '')
+    public function validationAction($hash = ''): ResponseInterface
     {
         if ($hash !== '') {
             /** @var OptIn $optIn */
@@ -38,7 +39,7 @@ class DoubleOptInController extends ActionController
 
                 if ($optIn->getIsValidated()) {
                     $this->view->assign('alreadyConfirmed', true);
-                    return;
+                    return $this->htmlResponse();
                 }
 
                 $optIn->setIsValidated(TRUE);
@@ -55,10 +56,12 @@ class DoubleOptInController extends ActionController
                 }
 
                 $this->view->assign('success', true);
-                return;
+                return $this->htmlResponse();
             }
         }
 
         $this->view->assign('notFound', true);
+
+        return $this->htmlResponse();
     }
 }

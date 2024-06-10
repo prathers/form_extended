@@ -4,9 +4,13 @@ namespace WapplerSystems\FormExtended\Domain\Finishers;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Mime\Address;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\Mailer;
+use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Mail\MailMessage;
+use TYPO3\CMS\Core\Service\FlexFormService;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -39,9 +43,8 @@ class DoubleOptInFinisher extends \TYPO3\CMS\Form\Domain\Finishers\EmailFinisher
     ];
 
 
-    public function __construct(readonly
-                                OptInRepository $optInRepository,
-                                EventDispatcherInterface $eventDispatcher)
+    public function __construct(readonly OptInRepository          $optInRepository,
+                                readonly EventDispatcherInterface $eventDispatcher)
     {
     }
 
@@ -66,21 +69,48 @@ class DoubleOptInFinisher extends \TYPO3\CMS\Form\Domain\Finishers\EmailFinisher
 
         $senderAddress = $this->parseOption('senderAddress');
         $senderAddress = is_string($senderAddress) ? $senderAddress : '';
-        $recipientAddress = $this->parseOption('recipientAddress');
-        $recipientName = $this->parseOption('recipientName');
+
+
+        $featureSiteEmail = GeneralUtility::makeInstance(ExtensionConfiguration::class)
+            ->get('form_extended', 'featureSiteEmail');
+        if ($featureSiteEmail) {
+
+            $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
+            $settings = $flexformService->convertFlexFormContentToArray($this->finisherContext->getRequest()->getAttribute('currentContentObject')?->data['pi_flexform'] ?? '');
+            $settings = $settings['settings'] ?? [];
+
+            /** @var Site $site */
+            $site = $this->finisherContext->getRequest()->getAttribute('site');
+            $senders = $site->getAttribute('senders');
+
+            if (isset($settings['sender'])) {
+                $senderName = '';
+                foreach ($senders as $sender) {
+                    if ($sender['email'] === ($settings['sender'] ?? '')) {
+                        $senderName = $sender['name'];
+                    }
+                }
+                $senderAddress = $settings['sender'] ?? '';
+            }
+        }
+
+
+        $recipients = $this->getRecipients('recipients');
         $validationPid = $this->parseOption('validationPid');
 
         if (empty($senderAddress)) {
             throw new FinisherException('A valid sender field and a sender address is required.', 1527145483);
         }
-
+        if (empty($recipients)) {
+            throw new FinisherException('The option "recipients" must be set for the EmailFinisher.', 1327060200);
+        }
         if (empty($validationPid)) {
             throw new FinisherException('The option "validationPid" must be set.', 1527148282);
         }
 
         /* Opt in data set  */
         $optIn = new OptIn();
-        $optIn->setEmail($recipientAddress);
+        $optIn->setEmail($recipients[0]->getAddress());
 
         if (is_array($payloadElementsConfiguration)) {
             $payload = $this->prepareData($payloadElementsConfiguration);
@@ -90,7 +120,8 @@ class DoubleOptInFinisher extends \TYPO3\CMS\Form\Domain\Finishers\EmailFinisher
 
         $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         $configuration = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-        $storagePid = $configuration['plugin.']['tx_formextended_doubleoptin.']['persistence.']['storagePid'];
+        $storagePid = $configuration['plugin.']['tx_formextended_doubleoptin.']['persistence.']['storagePid'] ?? -1;
+
         $optIn->setPid($storagePid);
 
         $this->optInRepository->add($optIn);
@@ -123,9 +154,7 @@ class DoubleOptInFinisher extends \TYPO3\CMS\Form\Domain\Finishers\EmailFinisher
         $blindCarbonCopyRecipients = $this->getRecipients('blindCarbonCopyRecipients');
         $addHtmlPart = $this->parseOption('addHtmlPart') ? true : false;
         $attachUploads = $this->parseOption('attachUploads');
-        $useFluidEmail = $this->parseOption('useFluidEmail');
-        $title = $this->parseOption('title');
-        $title = is_string($title) && $title !== '' ? $title : $subject;
+        $title = (string)$this->parseOption('title') ?: $subject;
 
         if (empty($subject)) {
             throw new FinisherException('The option "subject" must be set for the EmailFinisher.', 1327060320);
@@ -142,19 +171,15 @@ class DoubleOptInFinisher extends \TYPO3\CMS\Form\Domain\Finishers\EmailFinisher
             $translationService->setLanguage($this->options['translation']['language']);
         }
 
-        $mail = $useFluidEmail
-            ? $this
+        $mail = $this
                 ->initializeFluidEmail($formRuntime)
+                ->from(new Address($senderAddress, $senderName))
+                ->to(...$recipients)
+                ->subject($subject)
                 ->format($addHtmlPart ? FluidEmail::FORMAT_BOTH : FluidEmail::FORMAT_PLAIN)
                 ->assign('title', $title)
                 ->assign('optIn', $optIn)
-                ->assign('validationPid', $validationPid)
-            : GeneralUtility::makeInstance(MailMessage::class);
-
-        $mail
-            ->from(new Address($senderAddress, $senderName))
-            ->to(...[$recipientName => $recipientAddress])
-            ->subject($subject);
+                ->assign('validationPid', $validationPid);
 
         if (!empty($replyToRecipients)) {
             $mail->replyTo(...$replyToRecipients);
@@ -168,61 +193,35 @@ class DoubleOptInFinisher extends \TYPO3\CMS\Form\Domain\Finishers\EmailFinisher
             $mail->bcc(...$blindCarbonCopyRecipients);
         }
 
-        if (!$useFluidEmail) {
-            $parts = [
-                [
-                    'format' => 'Plaintext',
-                    'contentType' => 'text/plain',
-                ],
-            ];
-
-            if ($addHtmlPart) {
-                $parts[] = [
-                    'format' => 'Html',
-                    'contentType' => 'text/html',
-                ];
-            }
-
-            foreach ($parts as $i => $part) {
-                $standaloneView = $this->initializeStandaloneView($formRuntime, $part['format']);
-
-                $standaloneView->assign('optIn', $optIn);
-                $standaloneView->assign('validationPid', $validationPid);
-
-                $message = $standaloneView->render();
-
-                if ($part['contentType'] === 'text/plain') {
-                    $mail->text($message);
-                } else {
-                    $mail->html($message);
-                }
-            }
-        }
-
         if (!empty($languageBackup)) {
             $translationService->setLanguage($languageBackup);
         }
 
-        $elements = $formRuntime->getFormDefinition()->getRenderablesRecursively();
-
         if ($attachUploads) {
-            foreach ($elements as $element) {
+            foreach ($formRuntime->getFormDefinition()->getRenderablesRecursively() as $element) {
                 if (!$element instanceof FileUpload) {
                     continue;
                 }
                 $file = $formRuntime[$element->getIdentifier()];
                 if ($file) {
+                    if (is_array($file)) {
+                        foreach ($file as $singleFile) {
+                            if ($singleFile instanceof FileReference) {
+                                $singleFile = $singleFile->getOriginalResource();
+                            }
+                            $mail->attach($singleFile->getContents(), $singleFile->getName(), $singleFile->getMimeType());
+                        }
+                        continue;
+                    }
                     if ($file instanceof FileReference) {
                         $file = $file->getOriginalResource();
                     }
-
                     $mail->attach($file->getContents(), $file->getName(), $file->getMimeType());
                 }
             }
         }
 
-        $useFluidEmail ? GeneralUtility::makeInstance(Mailer::class)->send($mail) : $mail->send();
-
+        GeneralUtility::makeInstance(MailerInterface::class)->send($mail);
     }
 
 

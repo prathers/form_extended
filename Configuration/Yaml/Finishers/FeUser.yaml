@@ -9,3 +9,11 @@ TYPO3:
               formEditor:
                 iconIdentifier: form-finisher
                 label: 'Frontend User Finisher'
+                predefinedDefaults:
+                  options:
+                    pid: ''
+              FormEngine:
+                label: tt_content.finishersDefinition.FeUser.label
+                elements:
+
+
